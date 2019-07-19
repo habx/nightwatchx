@@ -1,0 +1,66 @@
+{
+  "name": "@habx/lib-template",
+  "version": "0.0.1",
+  "description": "Lib template",
+  "main": "./dist/index.js",
+  "types": "./dist/typings/index.d.ts",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "npm run clean && bili && npm run build:types",
+    "build:dev": "npm run clean && tsc",
+    "build:watch": "npm run clean && tsc --watch",
+    "build:types": "tsc --emitDeclarationOnly",
+    "postbuild": "node ./scripts/postbuild.js",
+    "publish": "cd dist && npm publish && cd ..",
+    "lint": "eslint \"src/**\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/habx/lib-template.git"
+  },
+  "author": "Jean Dessane",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/habx/lib-template/issues"
+  },
+  "homepage": "https://github.com/habx/lib-template#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@habx/eslint-config-client": "^2.0.6",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "@typescript-eslint/eslint-plugin": "^1.7.0",
+    "@typescript-eslint/parser": "^1.7.0",
+    "babel-eslint": "^10.0.1",
+    "bili": "^4.7.4",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-import-helpers": "^1.0.2",
+    "eslint-plugin-react": "^7.14.2",
+    "husky": "^2.2.0",
+    "lint-staged": "^8.1.6",
+    "prettier": "^1.17.0",
+    "prettier-eslint": "^9.0.0",
+    "prettier-eslint-cli": "^4.7.1",
+    "rimraf": "^2.6.3",
+    "rollup-plugin-multi-entry": "^2.1.0",
+    "rollup-plugin-typescript2": "^0.21.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.3.3"
+  }
+}
