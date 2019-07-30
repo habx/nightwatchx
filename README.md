@@ -1,7 +1,10 @@
 # Nightwatchx 🦉
 
-QA tool to run scenarii tests and compare screenshots for UI regression using [Nightwatch](http://nightwatchjs.org/) integration with [Browserstack](https://browserstack.com/) integrated with [Slack](https://api.slack.com).
 ![Npm badge](https://img.shields.io/npm/v/@habx/nightwatchx)
+
+
+
+QA tool to run scenarii tests and compare screenshots for UI regression using [Nightwatch](http://nightwatchjs.org/) integration with [Browserstack](https://browserstack.com/) integrated with [Slack](https://api.slack.com).
 
 
 ## Install
