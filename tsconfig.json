@@ -1,18 +1,24 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "rootDirs": ["./src"],
-    "outDir": "./dist",
+    "target": "ES2017",
+    "module": "commonjs",
     "declarationDir": "./dist/typings",
-    "lib": ["es7", "dom"],
-    "moduleResolution": "node",
-    "removeComments": true,
-    "sourceMap": true,
+    "lib": [
+      "es2017",
+      "esnext"
+    ],
     "declaration": true,
     "declarationMap": true,
-    "target": "esnext",
-    "module": "commonjs",
-    "esModuleInterop": true
+    "sourceMap": false,
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true
   },
-  "files": ["./src/index.ts"]
+  "files": ["./src/index.ts"],
+  "include": ["scripts/*", "config/*", "tests/**/*", "lib/**/*", "src/**/*", "src/index.ts"],
+  "exclude": ["node_modules"]
 }
