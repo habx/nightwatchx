@@ -6,3 +6,4 @@ export { getUrl } from './utils/url'
 
 // types
 export { NightwatchBrowser as NightwatchxBrowser } from './types/nightwatch'
+export { BrowserstackDeviceConfigs, NightwatchxEnvironements } from './types/nightwatch.custom'

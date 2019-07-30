@@ -1,0 +1,20 @@
+{
+  "name": "nightwatchx-example",
+  "version": "0.1.0",
+  "readme": "nightwatchx example",
+  "scripts": {
+    "only": "npm run build && npm run test -- --only=home --silent",
+    "build": "tsc && npx nightwatchx build",
+    "build:local": "tsc && npx nightwatchx build local",
+    "test": "npx nightwatchx test",
+    "test:dev": "npm run build && npm run test",
+    "test:local": "npm run build:local && npm run test -- --local --silent"
+  },
+  "dependencies": {
+    "@habx/nightwatchx": "^0.1.1"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.4.5"
+  }
+}

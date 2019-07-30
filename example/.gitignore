@@ -1,0 +1,9 @@
+tests_output
+local.log
+node_modules
+dist
+.idea
+.DS_Store
+report.json
+chromedriver.log
+.env

@@ -1,12 +1,12 @@
 {
   "name": "@habx/nightwatchx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "readme": "@habx/nightwatchx",
   "main": "./dist/src/index.js",
   "types": "./dist/typings/src/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "tslint --project tsconfig.json"
+    "lint": "tslint --project tsconfig.json --fix"
   },
   "bin": {
     "nightwatchx": "./dist/scripts/index.js"
@@ -51,5 +51,6 @@
     "tslint": "^5.16.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.4.5"
-  }
+  },
+  "files": ["dist"]
 }

@@ -28,6 +28,7 @@ export type NightwatchxCustomGlobals = {
       failedUrl?: string,
     },
   },
+  slug?: string
   url?: string,
   sessionid?: string,
   isLocal?: boolean,
@@ -61,4 +62,10 @@ export type BrowserstackDeviceConfig = BrowserstackDeviceDesktopConfig | Browser
 
 export type BrowserstackDeviceConfigs = {
   [key: string]: BrowserstackDeviceConfig,
+}
+
+export type NightwatchxEnvironements = {
+  [key: string]: {
+    url: string,
+  },
 }

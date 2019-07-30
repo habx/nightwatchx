@@ -1,4 +1,12 @@
 import { BrowserstackDeviceConfigs } from '../src/types/nightwatch.custom'
+import { readFileSync } from 'fs'
+
+let customDevices = {}
+try {
+  customDevices = JSON.parse(readFileSync(`${process.env.INIT_CWD}/config/devices.json`, 'utf8'))
+} catch (e) {
+  console.log('No custom devices found')
+}
 
 const devices: BrowserstackDeviceConfigs = {
   default: {
@@ -68,6 +76,7 @@ const devices: BrowserstackDeviceConfigs = {
       os_version: '11',
     },
   },
+  ...customDevices,
 }
 
 export default devices

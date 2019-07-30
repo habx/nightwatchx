@@ -1,0 +1,26 @@
+{
+  "runs": {
+    "default": {
+      "environments": [
+        "prod"
+      ],
+      "devices": [
+        "win10_chrome74",
+        "win10_firefox66",
+        "win10_edge18"
+      ],
+      "frequencyMinutes": 0,
+      "threshold": 0.5
+    },
+    "mobiles": {
+      "environments": [
+        "prod"
+      ],
+      "devices": [
+        "ios_iphoneX"
+      ],
+      "threshold": 7,
+      "frequencyMinutes": 0
+    }
+  }
+}

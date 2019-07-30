@@ -1,19 +1,41 @@
-# QA Browser Automation
+# Nightwatchx 🦉
 
-QA tool to run scenarii tests and compare screenshots for UI regression using [Nightwatch](http://nightwatchjs.org/) integration with [Browserstack](https://browserstack.com/).
+QA tool to run scenarii tests and compare screenshots for UI regression using [Nightwatch](http://nightwatchjs.org/) integration with [Browserstack](https://browserstack.com/) integrated with [Slack](https://api.slack.com).
+![Npm badge](https://img.shields.io/npm/v/@habx/nightwatchx)
+
+
+## Install
+``` shell
+# in your project (better if you want to use some of our code for tests)
+npm i @habx/nightwatchx
+
+# globaly, you handle tests writing on your own
+npm i -g @habx/nightwatchx
+```
 
 ## Usage
 
+### Build
+
 ``` shell
-# run all tests
-npm run  test:dev
+# build tests
+npx nightwatchx build
+
+# build local tests
+npx nightwatchx build local
+```
+### Test
+```
+# run your tests
+npx nightwatchx test
 
 # run specific tests
-npm run  test:dev --only=login
+npx nightwatchx test --only=login
 
 # run on a local chromium
 npm run  test:local --only=login
 ```
+
 ### Options
 | param   |   description |
 |----------|------|
@@ -33,7 +55,7 @@ There are 4 levels of configuration
   
 ## Test suite config
 
-Each test suite is associated to a `manifest.json` file. The later contains the configuration for the tests to be run with browserstack. The whole configuration is passed down to the globals of nightwatch
+Each test suite should be associated with a `manifest.json` file. The later contains the configuration for the tests to be run with browserstack. The whole configuration is passed down to the globals of nightwatch
 
 ``` javascript
 {
@@ -63,49 +85,50 @@ Each test suite is associated to a `manifest.json` file. The later contains the 
 
 ## Environment config
 
-All the environments options are described in the file `config/environments.ts`. You can also configure specific parameters by environment for tests.
-``` typescript
-export default {
-  default: {
-    url: 'http://www.habx.fr',
+All the environments options should be described in the file `config/environments.json`. You could also configure specific parameters by environment for tests.
+``` json
+{
+  "default": {
+    "url": "https://www.habx.fr"
   },
-  dev: {
-    url: 'http://www.habx-dev.fr',
+  "prod": {
+    "url": "https://www.habx.fr"
   },
-  ...
+  "prod_en": {
+    "url": "https://www.habx.com/en"
+  }
 }
+
+
 ```
 ## Devices config
 
-All the devices settings used by browserstack are described in the file `config/devices.ts`. You can also configure specific parameters by device for tests.
+All the devices settings used by browserstack should be described in the file `config/devices.json`. You could also configure specific parameters by device for tests.
 [See how to configure a device for browserstack](https://www.browserstack.com/automate/nightwatch)
-``` typescript
-export default {
-  default: {
-    env: 'chrome',
-    desiredCapabilities: {
-      browser: 'chrome',
-      resolution: '1024x768',
-      browser_version: '74.0',
-      os: 'Windows',
-      os_version: '10',
-    },
-  },
-  win10_chrome74: {
-    name: 'win10_chrome74',
-    env: 'chrome',
-    desiredCapabilities: {
-      browser: 'chrome',
-      resolution: '1024x768',
-      os: 'Windows',
-      browser_version: '74.0',
-      os_version: '10',
-    },
-  },
-  ...
+``` json
+{
+  "default": {
+    "env": "chrome",
+    "desiredCapabilities": {
+      "browser": "chrome",
+      "resolution": "1024x768",
+      "browser_version": "74.0",
+      "os": "Windows",
+      "os_version": "10"
+    }
+  }
 }
 
 ```
+### Predefined devices
+
+Some devices are already defined in the library:
+- win10_chrome74
+- win10_firefox66
+- win10_edge18
+- win10_ie11
+- android_samsungS9
+- ios_iphoneX
 
 ## Slack integration
 
