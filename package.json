@@ -1,6 +1,6 @@
 {
   "name": "@habx/nightwatchx",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "readme": "@habx/nightwatchx",
   "main": "./dist/src/index.js",
   "types": "./dist/typings/src/index.d.ts",
