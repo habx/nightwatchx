@@ -37,7 +37,7 @@
     "merge-img": "^2.1.3",
     "nightwatch": "^1.1.13",
     "node-fetch": "^2.5.0",
-    "otpauth": "^3.2.7",
+    "otpauth": "^4.0.0",
     "path": "^0.12.7",
     "pixelmatch": "^5.0.2",
     "pngjs": "^3.4.0",
