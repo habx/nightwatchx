@@ -27,6 +27,7 @@ npx nightwatchx build
 # build local tests
 npx nightwatchx build local
 ```
+
 ### Test
 ```
 # run your tests
@@ -37,6 +38,24 @@ npx nightwatchx test --only=login
 
 # run on a local chromium
 npm run  test:local --only=login
+```
+
+
+### Config 
+
+If you want to run tests on browser stack using `npx nightwatchx test`, you'll need the following environement variables:
+```
+BROWSERSTACK_ACCESS_KEY=***
+AWS_SECRET_ACCESS_KEY=***
+SLACK_TOKEN=***
+
+AWS_ACCESS_KEY_ID=***
+SLACK_HOOK=***
+SLACK_HOOK_ERROR_ONLY=***
+AWS_ACCOUNT_ID=***
+AWS_REGION=***
+BROWSERSTACK_USERNAME=***
+
 ```
 
 ### Options
