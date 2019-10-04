@@ -179,3 +179,50 @@ A slack message is sent at each run. It contains a summary of the run and its po
 <p align="center" style="margin: 0 20%">
   <img height="200" src="https://res.cloudinary.com/habx/image/upload/v1558520816/tech/QA-tool/Capture_d_e%CC%81cran_2019-05-22_a%CC%80_12.26.38.png" />
 </p>
+
+## Run test with github workflow
+
+Use the folowing github workflow config to run your tests every hour 🎉
+
+```yaml
+name: Run tests
+
+on:
+  schedule:
+  - cron: '0 * * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [8.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and test
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_HOOK: https://hooks.slack.com/services/*****
+        SLACK_HOOK_ERROR_ONLY: https://hooks.slack.com/services/*****
+        AWS_ACCESS_KEY_ID: ****
+        AWS_ACCOUNT_ID: ****
+        AWS_REGION: eu-west-1
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+        HABX_TOKEN: ${{ secrets.HABX_TOKEN }}
+        HABX_TOKEN_STAGING: ${{ secrets.HABX_TOKEN_STAGING }}
+        SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+
+      run: |
+        npm install
+        npm run build
+        npm run test
+```
