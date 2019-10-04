@@ -208,7 +208,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: npm install, build, and test
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SLACK_HOOK: https://hooks.slack.com/services/*****
         SLACK_HOOK_ERROR_ONLY: https://hooks.slack.com/services/*****
         AWS_ACCESS_KEY_ID: ****
@@ -217,8 +216,6 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
         BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
-        HABX_TOKEN: ${{ secrets.HABX_TOKEN }}
-        HABX_TOKEN_STAGING: ${{ secrets.HABX_TOKEN_STAGING }}
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
 
       run: |
