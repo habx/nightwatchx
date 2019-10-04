@@ -6,6 +6,11 @@
 
 QA tool to run scenarii tests and compare screenshots for UI regression using [Nightwatch](http://nightwatchjs.org/) integration with [Browserstack](https://browserstack.com/) integrated with [Slack](https://api.slack.com).
 
+⚠️ This script requires a AWS S3, Browserstack and Slack API access ⚠️
+
+- AWS S3: Storage of images for UI regression
+- Browserstack: multiple devices tests
+- Slack: tests notifications
 
 ## Install
 ``` shell
@@ -222,4 +227,12 @@ jobs:
         npm install
         npm run build
         npm run test
+```
+
+## API
+
+### UI regression
+
+```typescript
+browser.compareScreenshot(fileName: string, { threshold: number, waitBetweenScreenshots: number }
 ```
