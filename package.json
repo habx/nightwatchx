@@ -48,7 +48,7 @@
   "devDependencies": {
     "@types/pngjs": "^3.3.2",
     "husky": "^3.0.8",
-    "tslint": "^5.19.0",
+    "tslint": "^5.20.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.6.3"
   },
