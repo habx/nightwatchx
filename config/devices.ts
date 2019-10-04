@@ -5,7 +5,7 @@ let customDevices = {}
 try {
   customDevices = JSON.parse(readFileSync(`${process.env.INIT_CWD}/config/devices.json`, 'utf8'))
 } catch (e) {
-  console.log('No custom devices found')
+  console.warn('No custom devices found')
 }
 
 const devices: BrowserstackDeviceConfigs = {
