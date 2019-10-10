@@ -38,7 +38,7 @@
     "nightwatch": "^1.2.4",
     "node-fetch": "^2.5.0",
     "path": "^0.12.7",
-    "pixelmatch": "4.0.2",
+    "pixelmatch": "5.1.0",
     "pngjs": "^3.4.0",
     "shelljs": "^0.8.3",
     "strip-ansi": "^5.2.0"
