@@ -36,6 +36,8 @@ export type NightwatchxCustomGlobals = {
   failedImageUrl?: string,
   deviceName?: string,
   env?: string,
+  language?: string,
+  [key: string]: any,
 }
 
 export type BrowserstackDeviceDesktopConfig = {
