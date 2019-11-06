@@ -6,7 +6,7 @@
   "types": "./dist/typings/src/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "tslint --project tsconfig.json --fix"
+    "lint": "eslint \"src/**\""
   },
   "bin": {
     "nightwatchx": "./dist/scripts/index.js"
@@ -17,8 +17,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "append-query": "^2.1.0",
@@ -45,11 +51,11 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@habx/eslint-config-client": "^2.6.1",
     "@types/pngjs": "^3.3.2",
     "husky": "^3.0.9",
-    "tslint": "^5.20.1",
-    "tslint-config-standard": "^9.0.0",
-    "typescript": "^3.6.4"
+    "lint-staged": "^9.4.2",
+    "typescript": "^3.7.2"
   },
   "files": [
     "dist"
