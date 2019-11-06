@@ -7,7 +7,7 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.3
 
-import { NightwatchxCustomGlobals, NightwatchxCustomCommands, NightwatchCustomAssertions } from './nightwatch.custom'
+import { NightwatchxCustomGlobals, NightwatchxCustomCommands, NightwatchCustomAssertions as LocalNightwatchCustomAssertions } from './nightwatch.custom'
 
 export interface NightwatchDesiredCapabilities {
   /**
@@ -528,7 +528,7 @@ export interface Expect extends NightwatchLanguageChains, NightwatchBrowser {
   visible: this
 }
 
-export interface NightwatchAssertions extends NightwatchCommonAssertions, NightwatchCustomAssertions {
+export interface NightwatchAssertions extends NightwatchCommonAssertions, LocalNightwatchCustomAssertions {
 }
 
 export interface NightwatchCommonAssertions {
@@ -939,7 +939,7 @@ export interface NightwatchAPI extends SharedCommands, WebDriverProtocol, Nightw
 export interface NightwatchCustomCommands extends NightwatchxCustomCommands {}
 
 // tslint:disable-next-line
-export interface NightwatchCustomAssertions extends NightwatchCustomAssertions { }
+export interface NightwatchCustomAssertions extends LocalNightwatchCustomAssertions { }
 
 // tslint:disable-next-line
 export interface NightwatchCustomPageObjects { }
