@@ -24,4 +24,5 @@ export const BgMagenta = '\x1b[45m'
 export const BgCyan = '\x1b[46m'
 export const BgWhite = '\x1b[47m'
 
+// eslint-disable-next-line no-console
 export const log = (...params) => console.log(...params, Reset)

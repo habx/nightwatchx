@@ -1,10 +1,9 @@
-exports.assertion = function (a, b) {
-
+exports.assertion = function(a, b) {
   this.message = `Properties are equals`
 
   this.expected = b
 
-  this.pass = function () {
+  this.pass = function() {
     const pass = a === b
     if (!pass) {
       this.message = `Properties are not equals`
@@ -12,13 +11,12 @@ exports.assertion = function (a, b) {
     return pass
   }
 
-  this.value = function () {
+  this.value = function() {
     return a
   }
 
-  this.command = function (callback) {
+  this.command = function(callback) {
     callback()
     return this
   }
-
 }
