@@ -51,7 +51,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@habx/eslint-config-client": "^2.6.1",
+    "@habx/eslint-config-client": "^2.7.0",
     "@types/pngjs": "^3.3.2",
     "husky": "^3.0.9",
     "lint-staged": "^9.4.2",
