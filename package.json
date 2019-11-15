@@ -36,7 +36,7 @@
     "fetch-readablestream": "^0.2.0",
     "file-saver": "^2.0.2",
     "fs": "0.0.1-security",
-    "imagemin": "^7.0.0",
+    "imagemin": "^7.0.1",
     "imagemin-pngquant": "^8.0.0",
     "jimp": "0.8.5",
     "lodash": "^4.17.11",
