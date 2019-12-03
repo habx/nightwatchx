@@ -10,7 +10,8 @@ const s3 = new S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_REGION,
 })
-const BUCKET_NAME = 'habx-dev-qa-tool-browser-automation'
+const BUCKET_NAME =
+  process.env.BUCKET_NAME || 'habx-dev-qa-tool-browser-automation'
 
 export const uploadFile = (
   file: Buffer,

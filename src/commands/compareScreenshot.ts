@@ -8,7 +8,7 @@ import { PNG } from 'pngjs'
 import { NightwatchAPI } from '../types/nightwatch'
 import { compareScreenshotOptions } from '../types/nightwatch.custom'
 import { preventIdleTimeout } from '../utils/browserstack'
-import { FgGreen, FgYellow, log, Reset } from '../utils/console'
+import { log, logDecorator } from '../utils/console'
 import { getFile, getFileUrl, uploadFile } from '../utils/s3'
 import {
   getRefPath,
@@ -84,7 +84,7 @@ class CompareScreenshot extends EventEmitter {
         Math.abs((max(dimensions) - max(refDimensions)) / max(refDimensions)) +
         Math.abs((min(dimensions) - min(refDimensions)) / min(refDimensions))
       if (percentDimensionDiff > 0.2) {
-        log(`${FgYellow}Incorrect viewport size`)
+        log(logDecorator.FgYellow, `Incorrect viewport size`)
         this.emit('complete')
         return
       }
@@ -156,7 +156,10 @@ class CompareScreenshot extends EventEmitter {
           failedUrl: await getUrl(this.api),
         }
         log(
-          `${FgYellow}≠${Reset} Abnormal screenshot diff of ${percentDiff}%/${stringThreshold}: ${url}`
+          logDecorator.FgYellow,
+          '≠',
+          logDecorator.Reset,
+          `Abnormal screenshot diff of ${percentDiff}%/${stringThreshold}: ${url}`
         )
       } else {
         this.api.globals.screenshots[fileName] = {
@@ -165,7 +168,10 @@ class CompareScreenshot extends EventEmitter {
           name: fileName,
         }
         log(
-          `${FgGreen}≃${Reset} Acceptable diff for ${fileName} (${percentDiff}%)`
+          logDecorator.FgGreen,
+          '≃',
+          logDecorator.Reset,
+          `Acceptable diff for ${fileName} (${percentDiff}%)`
         )
         // await Promise.all([
         //   uploadFile(run, `${this.runsPath}/last_ok.png`),
@@ -174,7 +180,7 @@ class CompareScreenshot extends EventEmitter {
       }
       this.emit('complete')
     } else {
-      log(`${FgYellow}No ref file found`)
+      log(logDecorator.FgYellow, `No ref file found`)
       await uploadFile(run, `${this.refPath}/${fileName}.png`, this.api)
       this.emit('complete')
     }

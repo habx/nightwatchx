@@ -222,6 +222,7 @@ jobs:
         BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
         BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
 
       run: |
         npm install

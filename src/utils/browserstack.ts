@@ -2,7 +2,7 @@ import { get } from 'lodash'
 
 import { NightwatchBrowser } from '../types/nightwatch'
 
-import { log, FgRed } from './console'
+import { log, logDecorator } from './console'
 
 export const updateStatus = (browser: NightwatchBrowser) =>
   new Promise(resolve => {
@@ -26,7 +26,7 @@ export const updateStatus = (browser: NightwatchBrowser) =>
           resolve()
         })
         .on('error', function(error) {
-          log(FgRed, error)
+          log(logDecorator.FgRed, error)
           resolve()
         })
         .end(JSON.stringify({ status: 'error' }))
@@ -78,7 +78,7 @@ export const getInfos = (browser: NightwatchBrowser) =>
           })
         })
         .on('error', function(error) {
-          log(FgRed, error)
+          log(logDecorator.FgRed, error)
           resolve()
         })
         .end(JSON.stringify({ status: 'error' }))

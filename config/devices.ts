@@ -1,10 +1,15 @@
-import { BrowserstackDeviceConfigs } from '../src/types/nightwatch.custom'
 import { readFileSync } from 'fs'
+
+import { BrowserstackDeviceConfigs } from '../src/types/nightwatch.custom'
 
 let customDevices = {}
 try {
-  customDevices = JSON.parse(readFileSync(`${process.env.INIT_CWD}/config/devices.json`, 'utf8'))
+  customDevices = (() =>
+    JSON.parse(
+      readFileSync(`${process.env.INIT_CWD}/config/devices.json`, 'utf8')
+    ))()
 } catch (e) {
+  // eslint-disable-next-line no-console
   console.warn('No custom devices found')
 }
 

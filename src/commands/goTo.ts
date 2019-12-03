@@ -1,7 +1,7 @@
 import appendQuery from 'append-query'
 import EventEmitter from 'events'
 
-import { FgBlue, log, Reset } from '../utils/console'
+import { log, logDecorator } from '../utils/console'
 
 class GoTo extends EventEmitter {
   api: any
@@ -10,7 +10,12 @@ class GoTo extends EventEmitter {
     const realUrl = qa
       ? appendQuery(url, { 'test-qa': new Date().getTime() })
       : url
-    log(`${FgBlue}➤${Reset} Switch url to ${realUrl}`)
+    log(
+      logDecorator.FgBlue,
+      '➤',
+      logDecorator.Reset,
+      `Switch url to ${realUrl}`
+    )
 
     // TODO: inject document.onload code and create an element to wait for
     this.api.url(realUrl, () => {

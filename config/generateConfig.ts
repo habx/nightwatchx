@@ -1,20 +1,26 @@
 import dotenv from 'dotenv'
-import { get, pick, mapValues, omit } from 'lodash'
+import { get, pick, mapValues, omit, find } from 'lodash'
+
+import { NightwatchOptions } from '../src/types/nightwatch'
 
 import defaultConfig from './default'
 import devicesConfig from './devices'
 import environmentsConfig from './environments'
-import { NightwatchOptions } from '../src/types/nightwatch'
 
 dotenv.config()
 
-export const generateConfig = (testSuiteName: string, testConfig: NightwatchOptions, env: string = 'default') => {
+export const generateConfig = (
+  testSuiteName: string,
+  testConfig: NightwatchOptions,
+  env: string = 'default'
+) => {
   const devices = get(testConfig, 'devices', ['default'])
+  // eslint-disable-next-line no-console
   console.log('Generate config for', devices.join(', '), 'for', env)
 
   const config: NightwatchOptions = {
     ...defaultConfig,
-    src_folders: [ `dist/tests/${testSuiteName}` ],
+    src_folders: [`dist/tests/${testSuiteName}`],
 
     globals: {
       slug: testSuiteName,
@@ -47,12 +53,17 @@ module.exports = nightwatch_config;
 `
 }
 
-export const generateLocalConfig = (testSuiteName: string, testConfig: NightwatchOptions, env: string = 'default') => {
+export const generateLocalConfig = (
+  testSuiteName: string,
+  testConfig: NightwatchOptions,
+  env: string = 'default'
+) => {
+  // eslint-disable-next-line no-console
   console.log('Generate local config for', env)
 
   const config: NightwatchOptions = {
     ...omit(defaultConfig, ['selenium']),
-    src_folders: [ `dist/tests/${testSuiteName}` ],
+    src_folders: [`dist/tests/${testSuiteName}`],
 
     globals: {
       slug: testSuiteName,
@@ -65,20 +76,21 @@ export const generateLocalConfig = (testSuiteName: string, testConfig: Nightwatc
 
     webdriver: {
       server_path: 'node_modules/.bin/chromedriver',
-      cli_args: [
-        '--verbose',
-      ],
+      cli_args: ['--verbose'],
       port: 9515,
       start_process: true,
     },
 
-    test_settings : {
-      default : {
-        desiredCapabilities : {
-          browserName : 'chrome',
+    test_settings: {
+      default: {
+        desiredCapabilities: {
+          browserName: 'chrome',
         },
       },
     },
+    disable_colors:
+      !!find(process.argv, arg => arg.includes('--no-coloration')) ||
+      process.env.NO_COLORATION,
   }
   return `
 nightwatch_config = ${JSON.stringify(config)};
