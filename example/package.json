@@ -11,7 +11,7 @@
     "test:local": "npm run build:local && npm run test -- --local --silent"
   },
   "dependencies": {
-    "@habx/nightwatchx": "^0.1.1"
+    "@habx/nightwatchx": "latest"
   },
   "license": "MIT",
   "devDependencies": {
