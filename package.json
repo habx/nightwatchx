@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "append-query": "^2.1.0",
-    "aws-sdk": "^2.597.0",
+    "aws-sdk": "^2.598.0",
     "browserstack-local": "^1.4.3",
     "chromedriver": "^79.0.0",
     "dotenv": "^8.2.0",
