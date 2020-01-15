@@ -9,13 +9,14 @@ class WaitForUrlContains extends EventEmitter {
     callback?: () => void
   ) => {
     const startTime = Date.now()
-    const retry = () => {
+    const retry = async () => {
       if (Date.now().valueOf() - startTime.valueOf() > timeout) {
         this.emit('complete')
         this.api.assert.urlContains('contact')
         return callback()
       }
-      const url = this.api.url()
+
+      const url: string = await new Promise(resolve => this.api.url(({ value }) => resolve(value as string)))
       if (!url.includes(value)) {
         return setTimeout(retry, this.api.globals.waitForConditionPollInterval ?? 200)
       }
