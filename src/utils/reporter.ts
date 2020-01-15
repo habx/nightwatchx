@@ -1,7 +1,8 @@
 import { get, uniq, uniqBy, reduce, mapValues } from 'lodash'
 
+import { NightwatchGlobals } from '../types/nightwatch'
+
 import { getReportData, writeReportData } from './report'
-import {NightwatchGlobals} from 'nightwatch'
 
 export default async (globals: NightwatchGlobals, results) => {
   const generalReport = await getReportData()

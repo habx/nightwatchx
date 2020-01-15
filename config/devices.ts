@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
-import { BrowserstackDeviceConfigs } from 'nightwatch'
 
+import { BrowserstackDeviceConfigs } from '../src/types/nightwatch.custom'
 
 let customDevices = {}
 try {

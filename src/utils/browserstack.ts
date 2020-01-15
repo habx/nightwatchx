@@ -1,8 +1,8 @@
 import { get } from 'lodash'
 
+import { NightwatchBrowser } from '../types/nightwatch'
 
 import { log, logDecorator } from './console'
-import {NightwatchBrowser} from 'nightwatch'
 
 export const updateStatus = (browser: NightwatchBrowser) =>
   new Promise(resolve => {

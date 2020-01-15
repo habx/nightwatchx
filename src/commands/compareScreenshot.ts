@@ -5,6 +5,8 @@ import { get, max, min } from 'lodash'
 import pixelmatch from 'pixelmatch'
 import { PNG } from 'pngjs'
 
+import { NightwatchAPI } from '../types/nightwatch'
+import { compareScreenshotOptions } from '../types/nightwatch.custom'
 import { preventIdleTimeout } from '../utils/browserstack'
 import { log, logDecorator } from '../utils/console'
 import { getFile, getFileUrl, uploadFile } from '../utils/s3'
@@ -16,7 +18,6 @@ import {
   screenShotEntirePage,
 } from '../utils/screenshots'
 import { getUrl } from '../utils/url'
-import {NightwatchAPI, compareScreenshotOptions} from 'nightwatch'
 
 class CompareScreenshot extends EventEmitter {
   api: NightwatchAPI
