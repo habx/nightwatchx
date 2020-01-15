@@ -6,7 +6,7 @@ class WaitForUrlContains extends EventEmitter {
   command = (
     value: string,
     timeout = this.api.globals.waitForConditionTimeout,
-    callback?: () => void
+    callback = () => {}
   ) => {
     const startTime = Date.now()
     const retry = async () => {
@@ -16,9 +16,14 @@ class WaitForUrlContains extends EventEmitter {
         return callback()
       }
 
-      const url: string = await new Promise(resolve => this.api.url(({ value }) => resolve(value as string)))
+      const url: string = await new Promise(resolve =>
+        this.api.url(({ value }) => resolve(value as string))
+      )
       if (!url.includes(value)) {
-        return setTimeout(retry, this.api.globals.waitForConditionPollInterval ?? 200)
+        return setTimeout(
+          retry,
+          this.api.globals.waitForConditionPollInterval ?? 200
+        )
       }
       this.emit('complete')
       return callback()
