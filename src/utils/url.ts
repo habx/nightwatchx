@@ -1,4 +1,4 @@
-import { NightwatchBrowser } from '../types/nightwatch'
+import {NightwatchBrowser} from 'nightwatch'
 
 export const getUrl = (browser: NightwatchBrowser): Promise<string> =>
   new Promise(resolve => {

@@ -1,6 +1,6 @@
 import { get, max, min } from 'lodash'
+import { NightwatchTestFunctions } from 'nightwatch'
 
-import { NightwatchTestFunctions } from '../src/types/nightwatch'
 import { getInfos, updateStatus } from '../src/utils/browserstack'
 import { logDecorator, log } from '../src/utils/console'
 import reporter from '../src/utils/reporter'

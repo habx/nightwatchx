@@ -1,4 +1,4 @@
-import { NightwatchBrowser } from '../types/nightwatch'
+import {NightwatchBrowser} from 'nightwatch'
 
 export const getLocalStorage = (browser: NightwatchBrowser): Promise<object> =>
   new Promise<object>(resolve =>

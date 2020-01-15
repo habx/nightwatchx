@@ -1,8 +1,7 @@
 import S3 from 'aws-sdk/clients/s3'
 
-import { NightwatchBrowser } from '../types/nightwatch'
-
 import { preventIdleTimeout } from './browserstack'
+import {NightwatchBrowser} from 'nightwatch'
 
 const s3 = new S3({
   apiVersion: '2006-03-01',

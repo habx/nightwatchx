@@ -1,11 +1,10 @@
 import dotenv from 'dotenv'
 import { get, pick, mapValues, omit, find } from 'lodash'
 
-import { NightwatchOptions } from '../src/types/nightwatch'
-
 import defaultConfig from './default'
 import devicesConfig from './devices'
 import environmentsConfig from './environments'
+import {NightwatchOptions} from 'nightwatch'
 
 dotenv.config()
 

@@ -18,7 +18,12 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true
   },
+  "typeRoots": ["./node_modules/@types",
+    "./src/types/index.d.ts"
+  ],
   "files": ["./src/index.ts"],
-  "include": ["scripts/*", "config/*", "tests/**/*", "lib/**/*", "src/**/*", "src/index.ts"],
+  "include": ["scripts/*", "config/*", "tests/**/*", "lib/**/*", "src/**/*", "src/index.ts",
+    "src/types/index.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

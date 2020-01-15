@@ -2,10 +2,9 @@ import Jimp from 'jimp'
 import { get } from 'lodash'
 import mergeImg from 'merge-img'
 
-import { NightwatchBrowser } from '../types/nightwatch'
-
 import { log } from './console'
 import { getFileUrl, uploadFile } from './s3'
+import {NightwatchBrowser} from 'nightwatch'
 
 export const getRunPath = (browser: NightwatchBrowser): string =>
   `runs/${get(browser.globals, 'env')}/${get(browser.globals, 'slug')}/${get(
@@ -103,6 +102,7 @@ export const screenShotEntirePage = (
           await browser.pause(waitBetweenScreenshots)
         }
         const file = await new Promise(resolve =>
+          // @ts-ignore
           browser.screenshot(false, ({ value }) => resolve(value))
         )
         await new Promise(resolve =>

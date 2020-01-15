@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs'
-import { NightwatchxEnvironements } from '../src/types/nightwatch.custom'
+import { NightwatchxEnvironements } from 'nightwatch'
 
 let customEnvs = {
 
@@ -7,7 +7,7 @@ let customEnvs = {
 try {
   customEnvs = JSON.parse(readFileSync(`${process.env.INIT_CWD}/config/environments.json`, 'utf8'))
 } catch (e) {
-  console.warn('Please add environments in your config')
+  console.warn('Please add environments in your config') // eslint-disable-line
 }
 const envs: NightwatchxEnvironements = customEnvs
 
