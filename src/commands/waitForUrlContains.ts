@@ -10,7 +10,7 @@ class WaitForUrlContains extends EventEmitter {
   ) => {
     const startTime = Date.now()
     const retry = () => {
-      if (Date.now().valueOf() - startTime.valueOf() < timeout) {
+      if (Date.now().valueOf() - startTime.valueOf() > timeout) {
         this.emit('complete')
         this.api.assert.urlContains('contact')
         return callback()
