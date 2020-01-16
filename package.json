@@ -32,7 +32,7 @@
     "browserstack-local": "^1.4.3",
     "chromedriver": "^79.0.0",
     "dotenv": "^8.2.0",
-    "events": "^3.0.0",
+    "events": "^3.1.0",
     "fetch-readablestream": "^0.2.0",
     "file-saver": "^2.0.2",
     "fs": "0.0.1-security",
