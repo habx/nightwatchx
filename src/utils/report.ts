@@ -45,6 +45,7 @@ export const sendReportToSlack = async (silent: boolean) => {
     report,
     (content: ModuleReport, testKey: string) => {
       const firstScreenshotFailed = content.firstScreenshotFailed
+      const lastUrl = content.lastUrl
       let fallback = 'Everything went just fine'
       if (content.failedScreenshotCompareCount > 0) {
         fallback = `${testKey} test suite had abnormal screenshot diff`
@@ -111,7 +112,9 @@ export const sendReportToSlack = async (silent: boolean) => {
               type: 'section',
               text: {
                 type: 'mrkdwn',
-                text: `<!here|here> ${key} scenario failed ${message}`,
+                text: `<!here|here> ${key} scenario failed ${message} ${
+                  lastUrl ? `<${lastUrl}|see failing page>` : ''
+                }`,
               },
             },
             lastScreenBlock,

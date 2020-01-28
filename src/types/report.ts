@@ -1,6 +1,9 @@
 export type ModuleReport = {
+  raw: any
+  sessionid: string
   browserstackLinks: object
   failedImageUrl: string
+  lastUrl: string
   failedTests: object
   envs: string[]
   devices: {

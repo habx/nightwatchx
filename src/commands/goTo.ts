@@ -17,6 +17,8 @@ class GoTo extends EventEmitter {
       `Switch url to ${realUrl}`
     )
 
+    this.api.globals.lastUrl = url
+
     // TODO: inject document.onload code and create an element to wait for
     this.api.url(realUrl, () => {
       if (callback) {
