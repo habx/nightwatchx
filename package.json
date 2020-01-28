@@ -30,7 +30,7 @@
     "append-query": "^2.1.0",
     "aws-sdk": "^2.610.0",
     "browserstack-local": "^1.4.5",
-    "chromedriver": "^79.0.0",
+    "chromedriver": "^79.0.2",
     "dotenv": "^8.2.0",
     "events": "^3.1.0",
     "fetch-readablestream": "^0.2.0",
