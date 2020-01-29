@@ -2042,41 +2042,6 @@ export interface ElementCommands {
     ) => void,
     message?: string
   ): this
-
-  /**
-   * Waits a given time in milliseconds for an element to be visible in the page before performing any other commands or assertions.
-   *
-   * If the element fails to be present and visible in the specified amount of time, the test fails. You can change this by setting `abortOnFailure` to `false`.
-   *
-   * You can change the polling interval by defining a `waitForConditionPollInterval` property (in milliseconds) in as a global property in your `nightwatch.json` or in your external globals file.
-   *
-   * Similarly, a default timeout can be specified as a global `waitForConditionTimeout` property (in milliseconds).
-   *
-   * @example
-   * this.demoTest = function (browser) {
-   *   browser.waitForElementVisible('body', 1000);
-   *   // continue if failed
-   *   browser.waitForElementVisible('body', 1000, false);
-   *   // with callback
-   *   browser.waitForElementVisible('body', 1000, function() {
-   *     // do something while we're here
-   *   });
-   *   // custom Spanish message
-   *   browser.waitForElementVisible('body', 1000, 'elemento %s no era visible en %d ms');
-   *   // many combinations possible - the message is always the last argument
-   *   browser.waitForElementVisible('body', 1000, false, function() {}, 'elemento %s no era visible en %d ms');
-   * };
-   */
-  waitForElementVisible(
-    selector: string,
-    time?: number,
-    abortOnFailure?: boolean,
-    callback?: (
-      this: NightwatchAPI,
-      result: NightwatchCallbackResult<void>
-    ) => void,
-    message?: string
-  ): this
 }
 
 export interface WebDriverProtocol
