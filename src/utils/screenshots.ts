@@ -86,7 +86,7 @@ export const screenShotEntirePage = (
     try {
       const pageHeight = await new Promise<number>(resolve =>
         browser.execute(
-          'return document.documentElement.scrollHeight',
+          'return document.documentElement.scrollHeight || document.documentElement.clientHeight',
           [],
           ({ value }) => resolve(value as number)
         )
@@ -103,7 +103,9 @@ export const screenShotEntirePage = (
           await browser.pause(waitBetweenScreenshots)
         }
         const file = await new Promise(resolve =>
-          browser.screenshot(false, ({ value }) => resolve(value))
+          browser.screenshot(false, ({ value }) => {
+            return resolve(value)
+          })
         )
         await new Promise(resolve =>
           browser.execute(`window.scrollBy(0, ${height})`, [], resolve)
