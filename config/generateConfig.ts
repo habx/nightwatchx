@@ -43,6 +43,9 @@ export const generateConfig = (
           ...device.desiredCapabilities,
         },
       })),
+      disable_colors:
+        !!find(process.argv, arg => arg.includes('--no-coloration')) ||
+        process.env.NO_COLORATION,
     },
   }
   return `
@@ -56,7 +59,8 @@ module.exports = nightwatch_config;
 export const generateLocalConfig = (
   testSuiteName: string,
   testConfig: NightwatchOptions,
-  env: string = 'default'
+  env: string = 'default',
+  { headless = false }: { headless: boolean }
 ) => {
   // eslint-disable-next-line no-console
   console.log('Generate local config for', env)
@@ -85,6 +89,9 @@ export const generateLocalConfig = (
       default: {
         desiredCapabilities: {
           browserName: 'chrome',
+          chromeOptions: {
+            args: headless ? ['headless'] : [],
+          },
         },
       },
     },
