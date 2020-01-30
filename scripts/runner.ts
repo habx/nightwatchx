@@ -2,24 +2,70 @@
 
 import dotenv from 'dotenv'
 import { readFileSync } from 'fs'
-import { get, find } from 'lodash'
+import { get, find, set } from 'lodash'
 import * as shell from 'shelljs'
 
 import { sendReportToSlack } from '../src/utils/report'
 import { getJsonFile, uploadFile } from '../src/utils/s3'
 
 import { getDirectories } from './utils'
-;(async () => {
+
+const run = async () => {
   dotenv.config()
 
-  let testOnly = []
-  const onlyParam = find(process.argv, arg => arg.includes('--only'))
-  const localParam = !!find(process.argv, arg => arg.includes('--local'))
-  const silentParam = !!find(process.argv, arg => arg.includes('--silent'))
+  const getParams = () => {
+    let testOnlyParam = []
+    const onlyParam = find(process.argv, arg => arg.includes('--only'))
+    const localParam = !!find(process.argv, arg => arg.includes('--local'))
+    const silentParam = !!find(process.argv, arg => arg.includes('--silent'))
 
-  if (onlyParam) {
-    testOnly = onlyParam.replace('--only=', '').split(',')
+    if (onlyParam) {
+      testOnlyParam = onlyParam.replace('--only=', '').split(',')
+    }
+    return { testOnlyParam, silentParam, localParam }
   }
+
+  const shouldRunTest = (
+    testSuiteName: string,
+    envName: string,
+    deviceEnv: string,
+    frequencyMinutes: number
+  ) => {
+    const lastRunTme = get(
+      runsHistory,
+      [testSuiteName, run, envName, deviceEnv],
+      0
+    )
+    const runDiff = new Date().getTime() - lastRunTme
+    const runDiffMinutes = Math.floor(runDiff / 60000)
+    return (
+      localParam ||
+      (lastRunTme && frequencyMinutes
+        ? runDiffMinutes > frequencyMinutes
+        : true)
+    )
+  }
+
+  const getManifest = (folder: string) => {
+    let manifest
+    try {
+      manifest = JSON.parse(
+        readFileSync(`./${folder.replace('dist/', '')}/manifest.json`, 'utf8')
+      )
+    } catch (e) {
+      throw new Error(`Invalid manifest.json for ${folder}`)
+    }
+    return manifest
+  }
+
+  const getManifestFrequencyMinutes = (manifest: object) =>
+    (get(manifest, ['runs', run, 'frequencyMinutes']) ||
+      get(manifest, ['runs', 'default', 'frequencyMinutes']),
+    60) as number
+
+  //////////////////
+
+  const { testOnlyParam, silentParam, localParam } = getParams()
 
   const testFolders = getDirectories('./dist/tests')
   const runsHistory = await getJsonFile('runs.json')
@@ -27,63 +73,43 @@ import { getDirectories } from './utils'
   // run all test suites
   for (const folder of testFolders) {
     try {
-      let manifest
-      try {
-        manifest = JSON.parse(
-          readFileSync(`./${folder.replace('dist/', '')}/manifest.json`, 'utf8')
-        )
-      } catch (e) {
-        throw new Error(`Invalid manifest.json for ${folder}`)
-      }
+      const manifest = getManifest(folder)
       const testSuiteName = folder.replace('dist/tests/', '')
 
-      if (testOnly.length === 0 || testOnly.includes(testSuiteName)) {
+      if (testOnlyParam.length === 0 || testOnlyParam.includes(testSuiteName)) {
         // run tests for all defined runs
         for (const run of Object.keys(manifest.runs)) {
-          const lastRunTme = get(runsHistory, [testSuiteName, run], 0)
-          const runDiff = new Date().getTime() - lastRunTme
-          const runDiffMinutes = Math.floor(runDiff / 60000)
-          const frequencyMinutes = (get(manifest, [
-            'runs',
-            run,
-            'frequencyMinutes',
-          ]) ||
-            get(manifest, ['runs', 'default', 'frequencyMinutes'])) as number
-          const shouldRun =
-            localParam ||
-            (lastRunTme && frequencyMinutes
-              ? runDiffMinutes > frequencyMinutes
-              : true)
+          const frequencyMinutes = getManifestFrequencyMinutes(manifest)
 
-          if (shouldRun) {
-            const getTestSuiteConfigPath = (envName: string, isTest = false) =>
-              `./dist/${testSuiteName}_${run}_${envName}${
-                isTest ? '.local' : ''
-              }.js`
-            const devicesEnv = get(
-              manifest,
-              ['runs', run, 'devices'],
-              ['default']
-            )
-            const env = get(
-              manifest,
-              ['runs', run, 'environments'],
-              ['default']
-            )
+          const getTestSuiteConfigPath = (envName: string, isTest = false) =>
+            `./dist/${testSuiteName}_${run}_${envName}${
+              isTest ? '.local' : ''
+            }.js`
+          const devicesEnv = get(
+            manifest,
+            ['runs', run, 'devices'],
+            ['default']
+          )
+          const env = get(manifest, ['runs', run, 'environments'], ['default'])
 
-            // run tests for all defined environments + all devices
-            for (const envName of env) {
-              if (localParam) {
-                shell.exec(
-                  `./node_modules/.bin/nightwatch -c ${getTestSuiteConfigPath(
-                    envName,
-                    true
-                  )} ${process.argv
-                    .filter(arg => arg.includes('--'))
-                    .join(' ')}`
+          // run tests for all defined environments + all devices
+          for (const envName of env) {
+            if (localParam || process.env.HEADLESS) {
+              shell.exec(
+                `./node_modules/.bin/nightwatch -c ${getTestSuiteConfigPath(
+                  envName,
+                  true
+                )} ${process.argv.filter(arg => arg.includes('--')).join(' ')}`
+              )
+            } else {
+              for (const deviceEnv of devicesEnv) {
+                const shouldRun = shouldRunTest(
+                  testSuiteName,
+                  envName,
+                  deviceEnv,
+                  frequencyMinutes
                 )
-              } else {
-                for (const deviceEnv of devicesEnv) {
+                if (shouldRun) {
                   shell.exec(
                     `./node_modules/.bin/nightwatch -c ${getTestSuiteConfigPath(
                       envName
@@ -91,22 +117,22 @@ import { getDirectories } from './utils'
                       .filter(arg => arg.includes('--'))
                       .join(' ')}`
                   )
-                  // await runTests(getTestSuiteConfigPath(envName), deviceEnv) // not working for multi env
+                } else {
+                  // eslint-disable-next-line no-console
+                  console.log(
+                    `Skipping run ${run} for test suite ${testSuiteName}`
+                  )
                 }
+                // save runtime
+                set(
+                  runsHistory,
+                  [testSuiteName, run, envName, deviceEnv],
+                  new Date().getTime()
+                )
+                // await runTests(getTestSuiteConfigPath(envName), deviceEnv) // not working for multi env
               }
-              await sendReportToSlack(silentParam)
             }
-
-            // save runtime
-            if (!runsHistory[testSuiteName]) {
-              runsHistory[testSuiteName] = {}
-            }
-            runsHistory[testSuiteName][run] = new Date().getTime()
-          } else {
-            // eslint-disable-next-line no-console
-            console.log(
-              `Skipping run ${run} for test suite ${testSuiteName} (last run was ${runDiffMinutes} minutes ago)`
-            )
+            await sendReportToSlack(silentParam)
           }
         }
       } else {
@@ -121,4 +147,6 @@ import { getDirectories } from './utils'
       console.error(e)
     }
   }
-})()
+}
+
+run()

@@ -43,6 +43,9 @@ export const generateConfig = (
           ...device.desiredCapabilities,
         },
       })),
+      disable_colors:
+        !!find(process.argv, arg => arg.includes('--no-coloration')) ||
+        process.env.NO_COLORATION,
     },
   }
   return `
@@ -85,6 +88,9 @@ export const generateLocalConfig = (
       default: {
         desiredCapabilities: {
           browserName: 'chrome',
+          chromeOptions: {
+            args: process.env.HEADLESS ? ['headless'] : [],
+          },
         },
       },
     },
