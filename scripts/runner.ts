@@ -94,7 +94,7 @@ const run = async () => {
 
           // run tests for all defined environments + all devices
           for (const envName of env) {
-            if (localParam) {
+            if (localParam || process.env.HEADLESS) {
               shell.exec(
                 `./node_modules/.bin/nightwatch -c ${getTestSuiteConfigPath(
                   envName,

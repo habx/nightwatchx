@@ -59,8 +59,7 @@ module.exports = nightwatch_config;
 export const generateLocalConfig = (
   testSuiteName: string,
   testConfig: NightwatchOptions,
-  env: string = 'default',
-  { headless = false }: { headless: boolean }
+  env: string = 'default'
 ) => {
   // eslint-disable-next-line no-console
   console.log('Generate local config for', env)
@@ -90,7 +89,7 @@ export const generateLocalConfig = (
         desiredCapabilities: {
           browserName: 'chrome',
           chromeOptions: {
-            args: headless ? ['headless'] : [],
+            args: process.env.HEADLESS ? ['headless'] : [],
           },
         },
       },
