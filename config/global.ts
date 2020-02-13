@@ -35,7 +35,10 @@ const globals: NightwatchTestFunctions = {
       // Create report run
       await fetch(`${process.env.REPORT_ENDPOINT}/runs`, {
         method: 'post',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-habx-token': process.env.REPORT_TOKEN,
+        },
         body: JSON.stringify({
           slug: browser.options.desiredCapabilities.name,
           device: browser.globals.deviceName,
@@ -70,7 +73,10 @@ const globals: NightwatchTestFunctions = {
         `${process.env.REPORT_ENDPOINT}/runs/${browser.globals.sessionid}`,
         {
           method: 'post',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'x-habx-token': process.env.REPORT_TOKEN,
+          },
           body: JSON.stringify({
             status,
             duration: browser.currentTest.results.time,
