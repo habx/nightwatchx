@@ -79,7 +79,7 @@ const globals: NightwatchTestFunctions = {
           },
           body: JSON.stringify({
             status,
-            duration: browser.currentTest.results.time,
+            duration: Math.ceil(Number(browser.currentTest.results.time)),
             properties: {
               test: browser.currentTest,
               failedImageUrl: browser.globals.failedImageUrl,
