@@ -14,6 +14,7 @@ import {
 } from './nightwatch.custom'
 
 export interface NightwatchDesiredCapabilities {
+  name?: string
   /**
    * The name of the browser being used; should be one of {android|chrome|firefox|htmlunit|internet explorer|iPhone|iPad|opera|safari}.
    */
