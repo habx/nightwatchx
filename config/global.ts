@@ -31,13 +31,13 @@ const globals: NightwatchTestFunctions = {
     }
     log(logDecorator.FgMagenta, `Running on ${browser.globals.deviceName} 🖥\n`)
 
-    if (process.env.REPORT_ENDPOINT) {
+    if (process.env.EXPORT_ENDPOINT) {
       // Create report run
-      await fetch(`${process.env.REPORT_ENDPOINT}/runs`, {
+      await fetch(`${process.env.EXPORT_ENDPOINT}/runs`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
-          'x-habx-token': process.env.REPORT_TOKEN,
+          ...JSON.parse(process.env.EXPORT_HEADERS),
         },
         body: JSON.stringify({
           slug: browser.options.desiredCapabilities.name,
@@ -55,7 +55,7 @@ const globals: NightwatchTestFunctions = {
     await screenshotOnFail(browser)
     await updateStatus(browser)
 
-    if (process.env.REPORT_ENDPOINT) {
+    if (process.env.EXPORT_ENDPOINT) {
       let status = Object.values(globals.screenshots).some(
         ({ success }) => !success
       )
@@ -70,12 +70,12 @@ const globals: NightwatchTestFunctions = {
 
       // Save report run
       await fetch(
-        `${process.env.REPORT_ENDPOINT}/runs/${browser.globals.sessionid}`,
+        `${process.env.EXPORT_ENDPOINT}/runs/${browser.globals.sessionid}`,
         {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
-            'x-habx-token': process.env.REPORT_TOKEN,
+            ...JSON.parse(process.env.EXPORT_HEADERS),
           },
           body: JSON.stringify({
             status,
