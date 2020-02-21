@@ -54,7 +54,7 @@
     "@types/pngjs": "^3.4.1",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.7",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.2"
   },
   "files": [
     "dist"
