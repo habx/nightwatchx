@@ -5,7 +5,8 @@ import { NightwatchTestFunctions } from '../src/types/nightwatch'
 import { getInfos, updateStatus } from '../src/utils/browserstack'
 import { logDecorator, log } from '../src/utils/console'
 import reporter from '../src/utils/reporter'
-import { screenshotOnFail } from '../src/utils/screenshots'
+import { getFileUrl } from '../src/utils/s3'
+import { getRunPath, screenshotOnFail } from '../src/utils/screenshots'
 
 const globals: NightwatchTestFunctions = {
   asyncHookTimeout: 60000,
@@ -81,6 +82,10 @@ const globals: NightwatchTestFunctions = {
           body: JSON.stringify({
             status,
             duration: Math.ceil(Number(browser.currentTest.results.time)),
+            screenshotPath: getFileUrl(
+              `${getRunPath(browser)}/scenario_failed.png`,
+              60 * 60 * 24 * 365
+            ),
             properties: {
               test: browser.currentTest,
               failedImageUrl: browser.globals.failedImageUrl,
