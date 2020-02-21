@@ -2,6 +2,7 @@ import EventEmitter from 'events'
 import imagemin from 'imagemin'
 import imageminPngquant from 'imagemin-pngquant'
 import { get, max, min } from 'lodash'
+import fetch from 'node-fetch'
 import pixelmatch from 'pixelmatch'
 import { PNG } from 'pngjs'
 
@@ -105,7 +106,8 @@ class CompareScreenshot extends EventEmitter {
       waitBetweenScreenshots
     )
 
-    const ref = await getFile(`${this.refPath}/${fileName}.png`, this.api)
+    const refPath = `${this.refPath}/${fileName}.png`
+    const ref = await getFile(refPath, this.api)
     if (ref) {
       let diff = await this.compare(ref, run)
       let percentDiff = Math.floor((diff / (width * height)) * 100)
@@ -122,7 +124,34 @@ class CompareScreenshot extends EventEmitter {
         percentDiff = Math.floor((diff / (width * height)) * 100)
       }
 
-      // await uploadFile(run, `${this.runsPath}/last.png`)
+      const reportCheckpoint = async ({
+        filePath,
+        status,
+      }: {
+        filePath: string
+        status: 'ok' | 'diff'
+      }) => {
+        // Report checkpoint
+        const result = await fetch(
+          `${process.env.EXPORT_ENDPOINT}/runs/${this.api.globals.sessionid}/checkpoints`,
+          {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json',
+              ...JSON.parse(process.env.EXPORT_HEADERS),
+            },
+            body: JSON.stringify({
+              slug: fileName,
+              step: this.api.globals.step,
+              status,
+              screenshotPath: getFileUrl(filePath, 60 * 60 * 24 * 365),
+            }),
+          }
+        )
+        this.api.globals.step++
+        return result
+      }
+
       if (percentDiff > threshold * 100) {
         const currentFilePath = `${
           this.runsPath
@@ -140,11 +169,11 @@ class CompareScreenshot extends EventEmitter {
           ],
         })
         await Promise.all([
-          // uploadFile(run, `${this.runsPath}/last_failed.png`),
-          // uploadFile(failedImage, `${this.runsPath}/last_failed_diff.png`),
           uploadFile(run, `${this.refPath}/${fileName}.png`, this.api),
           uploadFile(optimizedFailedImage, currentFilePath, this.api),
+          reportCheckpoint({ status: 'diff', filePath: currentFilePath }),
         ])
+
         const url = getFileUrl(currentFilePath)
         const stringThreshold = `${threshold * 100}%`
         this.api.globals.screenshots[fileName] = {
@@ -167,17 +196,15 @@ class CompareScreenshot extends EventEmitter {
           success: true,
           name: fileName,
         }
+        await reportCheckpoint({ status: 'ok', filePath: refPath })
         log(
           logDecorator.FgGreen,
           '≃',
           logDecorator.Reset,
           `Acceptable diff for ${fileName} (${percentDiff}%)`
         )
-        // await Promise.all([
-        //   uploadFile(run, `${this.runsPath}/last_ok.png`),
-        //   uploadFile(this.diffImageBuffer, `${this.runsPath}/last_ok_diff.png`),
-        // ])
       }
+
       this.emit('complete')
     } else {
       log(logDecorator.FgYellow, `No ref file found`)

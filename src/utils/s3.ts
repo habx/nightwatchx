@@ -51,11 +51,11 @@ export const getFile = (
     })
   })
 
-export const getFileUrl = (filePath: string): string =>
+export const getFileUrl = (filePath: string, expires = 60 * 60 * 24): string =>
   s3.getSignedUrl('getObject', {
     Bucket: BUCKET_NAME,
     Key: filePath,
-    Expires: 60 * 60 * 24,
+    Expires: expires,
   })
 
 export const getJsonFile = async (filePath: string): Promise<object> => {

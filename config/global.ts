@@ -15,6 +15,7 @@ const globals: NightwatchTestFunctions = {
     done()
   },
   beforeEach: async function(browser, done) {
+    browser.globals.step = 1
     browser.globals.deviceName = get(browser, 'options.deviceName') || 'local'
     browser.globals.sessionid =
       get(browser, "capabilities['webdriver.remote.sessionid']") ||
