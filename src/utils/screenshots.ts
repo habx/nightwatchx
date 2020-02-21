@@ -52,6 +52,7 @@ export const screenshotOnFail = (browser: NightwatchBrowser) =>
       )
       const url = getFileUrl(`${getRunPath(browser)}/scenario_failed.png`)
       browser.globals.failedImageUrl = url
+
       log(`☞ last screenshot after failure: ${url}`)
       resolve()
     } else {
