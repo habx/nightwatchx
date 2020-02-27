@@ -78,7 +78,8 @@ export const mergeScreenshots = (
 export const screenShotEntirePage = (
   browser: NightwatchBrowser,
   viewportHeight?: number,
-  waitBetweenScreenshots?: number
+  waitBetweenScreenshots?: number,
+  scrollContainerSelector?: string
 ): Promise<Buffer> =>
   new Promise<Buffer>(async (resolve, reject) => {
     const height =
@@ -87,13 +88,27 @@ export const screenShotEntirePage = (
     try {
       const pageHeight = await new Promise<number>(resolve =>
         browser.execute(
-          'return document.documentElement.scrollHeight || document.documentElement.clientHeight',
+          `try {
+              return document.querySelector('${scrollContainerSelector}').scrollHeight
+            } catch (e) {
+              return document.documentElement.scrollHeight || document.documentElement.clientHeight
+            }`,
           [],
           ({ value }) => resolve(value as number)
         )
       )
       await new Promise(resolve =>
-        browser.execute(`window.scrollTo(0, 0)`, [], resolve)
+        browser.execute(
+          `
+            try {
+              document.querySelector('${scrollContainerSelector}').scrollTop = 0
+            } catch (e) {
+              window.scrollBy(0, 0)
+            } 
+            `,
+          [],
+          resolve
+        )
       )
 
       const screenShotsCount = Math.ceil(pageHeight / height)
@@ -109,7 +124,18 @@ export const screenShotEntirePage = (
           })
         )
         await new Promise(resolve =>
-          browser.execute(`window.scrollBy(0, ${height})`, [], resolve)
+          browser.execute(
+            `
+          try {
+              document.querySelector('${scrollContainerSelector}').scrollTop = ${height *
+              (i + 1)}
+            } catch (e) {
+              window.scrollBy(0, ${height})
+            } 
+          `,
+            [],
+            resolve
+          )
         )
         screenShots.push(new Buffer(file.toString(), 'base64'))
       }

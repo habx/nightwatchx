@@ -66,6 +66,7 @@ class CompareScreenshot extends EventEmitter {
     {
       threshold: paramThreshold,
       waitBetweenScreenshots,
+      scrollContainerSelector,
     }: compareScreenshotOptions = {}
   ) => {
     if (this.api.globals.isLocal) {
@@ -103,7 +104,8 @@ class CompareScreenshot extends EventEmitter {
     let run = await screenShotEntirePage(
       this.api,
       height,
-      waitBetweenScreenshots
+      waitBetweenScreenshots,
+      scrollContainerSelector
     )
 
     const refPath = `${this.refPath}/${fileName}.png`
@@ -119,7 +121,12 @@ class CompareScreenshot extends EventEmitter {
           this.api.execute(`window.scrollBy(0, 0)`, [], resolve)
         )
         await (() => ({}))()
-        run = await screenShotEntirePage(this.api, height)
+        run = await screenShotEntirePage(
+          this.api,
+          height,
+          waitBetweenScreenshots,
+          scrollContainerSelector
+        )
         diff = await this.compare(ref, run)
         percentDiff = Math.floor((diff / (width * height)) * 100)
       }

@@ -4,6 +4,7 @@ export type compareScreenshotOptions = {
   inc?: boolean
   threshold?: number
   waitBetweenScreenshots?: number
+  scrollContainerSelector?: string
 }
 
 export interface NightwatchxCustomCommands {
