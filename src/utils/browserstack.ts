@@ -52,7 +52,10 @@ export const getInfos = (browser: NightwatchBrowser) =>
         .request(options, res => {
           res.on('data', function(chunk) {
             try {
-              const data = JSON.parse(chunk.toString())
+              let data = {}
+              try {
+                data = JSON.parse(chunk.toString())
+              } catch (e) {}
               log(
                 `🎥 browserstack report: ${get(
                   data,
