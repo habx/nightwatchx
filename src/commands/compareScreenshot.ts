@@ -32,14 +32,14 @@ class CompareScreenshot extends EventEmitter {
       width: number
       height: number
       data: Buffer
-    }>(resolveParsed => {
+    }>((resolveParsed) => {
       const img = new PNG().parse(ref).on('parsed', () => resolveParsed(img))
     })
     const runPng = await new Promise<{
       width: number
       height: number
       data: Buffer
-    }>(resolveParsed => {
+    }>((resolveParsed) => {
       const img = new PNG().parse(run).on('parsed', () => resolveParsed(img))
     })
 
@@ -81,7 +81,7 @@ class CompareScreenshot extends EventEmitter {
     if (deviceDimensions) {
       const refDimensions = deviceDimensions
         .split('x')
-        .map(size => Number(size.replace('x', '')))
+        .map((size) => Number(size.replace('x', '')))
       const percentDimensionDiff =
         Math.abs((max(dimensions) - max(refDimensions)) / max(refDimensions)) +
         Math.abs((min(dimensions) - min(refDimensions)) / min(refDimensions))
@@ -117,7 +117,7 @@ class CompareScreenshot extends EventEmitter {
       // retry once just to be sure
       if (percentDiff > threshold * 100) {
         // await this.api.refresh()
-        await new Promise(resolve =>
+        await new Promise((resolve) =>
           this.api.execute(`window.scrollBy(0, 0)`, [], resolve)
         )
         await (() => ({}))()

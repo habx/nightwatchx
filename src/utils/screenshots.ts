@@ -23,13 +23,13 @@ export const getRefPath = (browser: NightwatchBrowser): string =>
 export const getViewportDimensions = (
   browser: NightwatchBrowser
 ): Promise<{ width: number; height: number }> =>
-  new Promise(async resolveAll => {
-    const height = await new Promise<number>(resolve =>
+  new Promise(async (resolveAll) => {
+    const height = await new Promise<number>((resolve) =>
       browser.execute('return window.innerHeight', [], ({ value }) =>
         resolve(value as number)
       )
     )
-    const width = await new Promise<number>(resolve =>
+    const width = await new Promise<number>((resolve) =>
       browser.execute('return window.innerWidth', [], ({ value }) =>
         resolve(value as number)
       )
@@ -38,7 +38,7 @@ export const getViewportDimensions = (
   })
 
 export const screenshotOnFail = (browser: NightwatchBrowser) =>
-  new Promise(async resolve => {
+  new Promise(async (resolve) => {
     if (
       (browser.currentTest.results.failed ||
         browser.currentTest.results.errors) &&
@@ -86,7 +86,7 @@ export const screenShotEntirePage = (
       viewportHeight || get(await getViewportDimensions(browser), 'height')
 
     try {
-      const pageHeight = await new Promise<number>(resolve =>
+      const pageHeight = await new Promise<number>((resolve) =>
         browser.execute(
           `try {
               return document.querySelector('${scrollContainerSelector}').scrollHeight
@@ -97,7 +97,7 @@ export const screenShotEntirePage = (
           ({ value }) => resolve(value as number)
         )
       )
-      await new Promise(resolve =>
+      await new Promise((resolve) =>
         browser.execute(
           `
             try {
@@ -118,17 +118,18 @@ export const screenShotEntirePage = (
         if (waitBetweenScreenshots) {
           await browser.pause(waitBetweenScreenshots)
         }
-        const file = await new Promise(resolve =>
+        const file = await new Promise((resolve) =>
           browser.screenshot(false, ({ value }) => {
             return resolve(value)
           })
         )
-        await new Promise(resolve =>
+        await new Promise((resolve) =>
           browser.execute(
             `
           try {
-              document.querySelector('${scrollContainerSelector}').scrollTop = ${height *
-              (i + 1)}
+              document.querySelector('${scrollContainerSelector}').scrollTop = ${
+              height * (i + 1)
+            }
             } catch (e) {
               window.scrollBy(0, ${height})
             } 

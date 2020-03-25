@@ -30,7 +30,7 @@ export default async (globals: NightwatchGlobals, results) => {
       moduleReportName,
       'firstScreenshotFailed',
     ])
-    mapValues(globals.screenshots, screenshotData => {
+    mapValues(globals.screenshots, (screenshotData) => {
       if (!screenshotData.success || screenshotData.success === 'false') {
         failedScreenshotCompareCount++
       }

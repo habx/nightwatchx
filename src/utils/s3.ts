@@ -41,7 +41,7 @@ export const getFile = (
   filePath: string,
   browser?: NightwatchBrowser
 ): Promise<Buffer> =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     const interval = preventIdleTimeout(browser, 'Downloading file...')
     s3.getObject({ Bucket: BUCKET_NAME, Key: filePath }, (err, data) => {
       if (err) {

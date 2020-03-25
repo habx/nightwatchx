@@ -20,7 +20,7 @@ const getCurrentStatusColor = (content: ModuleReport) => {
 }
 
 export const getReportData = (): Promise<Report> =>
-  new Promise<Report>(resolve =>
+  new Promise<Report>((resolve) =>
     fs.readFile(REPORT_PATH, (err, data) => {
       if (err) {
         resolve({})
@@ -63,8 +63,9 @@ export const sendReportToSlack = async (silent: boolean) => {
             type: 'mrkdwn',
             text: `*${testKey}*  🚦 ${content.testsCount} assertions  ✅ ${
               content.passedCount
-            } passed ❗️${content.failedCount +
-              content.errorsCount} failed ⚠️ ${
+            } passed ❗️${
+              content.failedCount + content.errorsCount
+            } failed ⚠️ ${
               content.failedScreenshotCompareCount
             } abnormal ui regressions 🕐 in ${Math.floor(content.totalTime)}s`,
           },

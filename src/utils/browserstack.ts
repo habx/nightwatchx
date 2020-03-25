@@ -5,7 +5,7 @@ import { NightwatchBrowser } from '../types/nightwatch'
 import { log, logDecorator } from './console'
 
 export const updateStatus = (browser: NightwatchBrowser) =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     if (
       (browser.currentTest.results.failed ||
         browser.currentTest.results.errors) &&
@@ -22,10 +22,10 @@ export const updateStatus = (browser: NightwatchBrowser) =>
         headers: { 'Content-Type': 'application/json' },
       }
       require('https')
-        .request(options, function() {
+        .request(options, function () {
           resolve()
         })
-        .on('error', function(error) {
+        .on('error', function (error) {
           log(logDecorator.FgRed, error)
           resolve()
         })
@@ -36,7 +36,7 @@ export const updateStatus = (browser: NightwatchBrowser) =>
   })
 
 export const getInfos = (browser: NightwatchBrowser) =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     if (!browser.globals.isLocal) {
       const caps = browser.options.desiredCapabilities
       const user = caps['browserstack.user']
@@ -49,8 +49,8 @@ export const getInfos = (browser: NightwatchBrowser) =>
         headers: { 'Content-Type': 'application/json' },
       }
       require('https')
-        .request(options, res => {
-          res.on('data', function(chunk) {
+        .request(options, (res) => {
+          res.on('data', function (chunk) {
             try {
               let data = {}
               try {
@@ -80,7 +80,7 @@ export const getInfos = (browser: NightwatchBrowser) =>
             }
           })
         })
-        .on('error', function(error) {
+        .on('error', function (error) {
           log(logDecorator.FgRed, error)
           resolve()
         })

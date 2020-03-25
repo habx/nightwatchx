@@ -1,7 +1,7 @@
 import { NightwatchBrowser } from '../types/nightwatch'
 
 export const getLocalStorage = (browser: NightwatchBrowser): Promise<object> =>
-  new Promise<object>(resolve =>
+  new Promise<object>((resolve) =>
     browser.execute(
       'return JSON.stringify(window.localStorage)',
       [],

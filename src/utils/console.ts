@@ -31,11 +31,11 @@ export const logDecorator = {
 // eslint-disable-next-line no-console
 export const log = (...params) => {
   const noColoration =
-    !!find(process.argv, arg => arg.includes('--no-coloration')) ||
+    !!find(process.argv, (arg) => arg.includes('--no-coloration')) ||
     process.env.NO_COLORATION
   // eslint-disable-next-line no-console
   console.log(
-    ...filter([...params, logDecorator.Reset], param =>
+    ...filter([...params, logDecorator.Reset], (param) =>
       noColoration ? !Object.values(logDecorator).includes(param) : true
     )
   )

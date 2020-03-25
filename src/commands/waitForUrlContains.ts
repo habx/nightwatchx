@@ -16,7 +16,7 @@ class WaitForUrlContains extends EventEmitter {
         return callback()
       }
 
-      const url: string = await new Promise(resolve =>
+      const url: string = await new Promise((resolve) =>
         this.api.url(({ value }) => resolve(value as string))
       )
       if (!url.includes(value)) {
