@@ -9,8 +9,8 @@ import { getFileUrl } from '../src/utils/s3'
 import { getRunPath, screenshotOnFail } from '../src/utils/screenshots'
 
 const globals: NightwatchTestFunctions = {
-  asyncHookTimeout: 60000 * 5,
-  customReporterCallbackTimeout: 60000 * 3,
+  asyncHookTimeout: 60000 * 10,
+  customReporterCallbackTimeout: 60000 * 5,
   reporter: async function(results, done) {
     await reporter(this, results)
     done()
