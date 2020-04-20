@@ -43,8 +43,8 @@ export const generateConfig = (
           ...device.desiredCapabilities,
         },
       })),
-      disable_colors: true,
     },
+    disable_color: true,
   }
   return `
 nightwatch_config = ${JSON.stringify(config)};
@@ -92,7 +92,6 @@ export const generateLocalConfig = (
         },
       },
     },
-    disable_colors: false,
   }
   return `
 nightwatch_config = ${JSON.stringify(config)};

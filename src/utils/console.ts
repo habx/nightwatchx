@@ -1,4 +1,4 @@
-import { filter, find } from 'lodash'
+import { filter } from 'lodash'
 
 export const logDecorator = {
   Reset: '\x1b[0m',
@@ -30,9 +30,7 @@ export const logDecorator = {
 
 // eslint-disable-next-line no-console
 export const log = (...params) => {
-  const noColoration =
-    !!find(process.argv, arg => arg.includes('--no-coloration')) ||
-    process.env.NO_COLORATION
+  const noColoration = process.env.NO_COLORATION
   // eslint-disable-next-line no-console
   console.log(
     ...filter([...params, logDecorator.Reset], param =>
