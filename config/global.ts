@@ -10,7 +10,7 @@ import { getRunPath, screenshotOnFail } from '../src/utils/screenshots'
 
 const globals: NightwatchTestFunctions = {
   asyncHookTimeout: 60000 * 5,
-  customReporterCallbackTimeout: 60000,
+  customReporterCallbackTimeout: 60000 * 3,
   reporter: async function(results, done) {
     await reporter(this, results)
     done()
