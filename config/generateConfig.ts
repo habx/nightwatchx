@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import { get, pick, mapValues, omit, find } from 'lodash'
+import { get, pick, mapValues, omit } from 'lodash'
 
 import { NightwatchOptions } from '../src/types/nightwatch'
 
@@ -43,9 +43,7 @@ export const generateConfig = (
           ...device.desiredCapabilities,
         },
       })),
-      disable_colors:
-        !!find(process.argv, arg => arg.includes('--no-coloration')) ||
-        process.env.NO_COLORATION,
+      disable_colors: true,
     },
   }
   return `
@@ -94,9 +92,7 @@ export const generateLocalConfig = (
         },
       },
     },
-    disable_colors:
-      !!find(process.argv, arg => arg.includes('--no-coloration')) ||
-      process.env.NO_COLORATION,
+    disable_colors: false,
   }
   return `
 nightwatch_config = ${JSON.stringify(config)};
