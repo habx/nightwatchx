@@ -1,4 +1,4 @@
-import EventEmitter from 'events'
+import { EventEmitter } from 'events'
 import imagemin from 'imagemin'
 import imageminPngquant from 'imagemin-pngquant'
 import { get, max, min } from 'lodash'

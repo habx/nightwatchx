@@ -1,5 +1,5 @@
 import appendQuery from 'append-query'
-import EventEmitter from 'events'
+import { EventEmitter } from 'events'
 
 import { log, logDecorator } from '../utils/console'
 
