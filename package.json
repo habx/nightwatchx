@@ -53,7 +53,7 @@
     "@habx/eslint-config-client": "^2.8.0",
     "@types/pngjs": "^3.4.2",
     "husky": "^4.2.3",
-    "lint-staged": "^10.2.9",
+    "lint-staged": "^10.2.10",
     "typescript": "^3.9.5"
   },
   "files": [
