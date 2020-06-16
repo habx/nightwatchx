@@ -138,25 +138,27 @@ class CompareScreenshot extends EventEmitter {
         filePath: string
         status: 'ok' | 'diff'
       }) => {
-        // Report checkpoint
-        const result = await fetch(
-          `${process.env.EXPORT_ENDPOINT}/runs/${this.api.globals.sessionid}/checkpoints`,
-          {
-            method: 'post',
-            headers: {
-              'Content-Type': 'application/json',
-              ...JSON.parse(process.env.EXPORT_HEADERS),
-            },
-            body: JSON.stringify({
-              slug: fileName,
-              step: this.api.globals.step,
-              status,
-              screenshotPath: getFileUrl(filePath, 60 * 60 * 24 * 365),
-            }),
-          }
-        )
-        this.api.globals.step++
-        return result
+        if (process.env.EXPORT_ENDPOINT) {
+          // Report checkpoint
+          const result = await fetch(
+            `${process.env.EXPORT_ENDPOINT}/runs/${this.api.globals.sessionid}/checkpoints`,
+            {
+              method: 'post',
+              headers: {
+                'Content-Type': 'application/json',
+                ...JSON.parse(process.env.EXPORT_HEADERS),
+              },
+              body: JSON.stringify({
+                slug: fileName,
+                step: this.api.globals.step,
+                status,
+                screenshotPath: getFileUrl(filePath, 60 * 60 * 24 * 365),
+              }),
+            }
+          )
+          this.api.globals.step++
+          return result
+        }
       }
 
       if (percentDiff > threshold * 100) {
@@ -178,7 +180,6 @@ class CompareScreenshot extends EventEmitter {
         await Promise.all([
           uploadFile(run, `${this.refPath}/${fileName}.png`, this.api),
           uploadFile(optimizedFailedImage, currentFilePath, this.api),
-          reportCheckpoint({ status: 'diff', filePath: currentFilePath }),
         ])
 
         const url = getFileUrl(currentFilePath)
