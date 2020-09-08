@@ -52,7 +52,7 @@
   "devDependencies": {
     "@habx/eslint-config-client": "^2.8.0",
     "@types/pngjs": "^3.4.2",
-    "husky": "^4.2.3",
+    "husky": "^4.3.0",
     "lint-staged": "^10.3.0",
     "typescript": "^3.9.7"
   },
