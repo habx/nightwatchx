@@ -134,6 +134,7 @@ workflows:
           context: ts-lib-client-public
           requires:
             - lint
+            - build
           filters:
             <<: *filters_allow_tags
             <<: *filters_ignore_branches
@@ -141,6 +142,7 @@ workflows:
           context: ts-lib-client-public
           requires:
             - lint
+            - build
           filters:
             <<: *filters_allow_tags
             <<: *filters_ignore_branches
