@@ -44,7 +44,7 @@
     "node-fetch": "^2.6.1",
     "path": "^0.12.7",
     "pixelmatch": "5.2.1",
-    "pngjs": "^3.4.0",
+    "pngjs": "^6.0.0",
     "shelljs": "^0.8.4",
     "strip-ansi": "^6.0.0"
   },
